@@ -7,4 +7,11 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
+  app.use(
+    "/maps/api/distancematrix/",
+    createProxyMiddleware({
+      target: "https://maps.googleapis.com",
+      changeOrigin: true,
+    })
+  );
 };
