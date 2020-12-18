@@ -8,7 +8,7 @@ import Form from "./Form";
 import Reminderdetails from "./Reminderdetails";
 require("dotenv").config();
 
-export default function Form1() {
+export default function Task() {
   const [values, setValues] = useState({
     slatitude: "",
     slongitude: "",
@@ -35,7 +35,6 @@ export default function Form1() {
 
   const validate = async () => {
     let { slatitude, slongitude, dlatitude, dlongitude, email } = values;
-    console.log(slatitude);
     slatitude = trim(slatitude);
     slongitude = trim(slongitude);
     dlatitude = trim(dlatitude);
@@ -88,7 +87,7 @@ export default function Form1() {
         let t1 = m.hour();
         let t2 = m.minutes();
         try {
-          Axios.post("http://localhost:5000/api/add", {
+          Axios.post("/api/add", {
             email,
             t1,
             t2,

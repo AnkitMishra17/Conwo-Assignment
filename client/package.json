@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": ["https://maps.googleapis.com", "https://localhost:5000"],
+  "proxy": "https://maps.googleapis.com",
   "dependencies": {
     "@material-ui/core": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",

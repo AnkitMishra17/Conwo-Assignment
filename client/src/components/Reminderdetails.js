@@ -4,8 +4,7 @@ import SnackbarContent from "@material-ui/core/SnackbarContent";
 function Reminderdetails(props) {
   const { reminderDetails } = props;
   const details = reminderDetails.map((ele, idx) => {
-    console.log(ele);
-    let msg = `[${ele.time}] - Requested MAP API for (${ele.email})`;
+    let msg = `[${ele[0]}] - Requested MAP API for (${ele[1]})`;
     return (
       <SnackbarContent
         key={idx}
