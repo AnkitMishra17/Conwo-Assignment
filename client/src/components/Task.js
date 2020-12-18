@@ -88,7 +88,7 @@ export default function Task() {
         let t1 = m.hour();
         let t2 = m.minutes();
         try {
-          Axios.post("http://localhost:5000/api/add", {
+          Axios.post("/api/add", {
             email,
             t1,
             t2,
@@ -107,9 +107,9 @@ export default function Task() {
     e.preventDefault();
     let data = await validate();
     if (Object.keys(data).length === 0) {
-      setreminderDetails((result) => [...result, [values.time, values.email]]);
       setFormErrors({});
       sendReminderData();
+      setreminderDetails((result) => [...result, [values.time, values.email]]);
     } else {
       setFormErrors(data);
     }
