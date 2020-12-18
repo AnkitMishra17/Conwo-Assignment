@@ -67,6 +67,7 @@ export default function Task() {
       );
       const { data } = await res;
       const { status } = data.rows[0].elements[0];
+      console.log(data.rows[0].elements[0]);
       if (status === "OK") {
         let gettime = time.split(":");
         let hrs = parseInt(gettime[0]);
@@ -87,7 +88,7 @@ export default function Task() {
         let t1 = m.hour();
         let t2 = m.minutes();
         try {
-          Axios.post("/api/add", {
+          Axios.post("http://localhost:5000/api/add", {
             email,
             t1,
             t2,

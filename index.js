@@ -16,7 +16,7 @@ const whitelist = [
   "http://localhost:3000",
   "http://localhost:5000",
   "https://conwo-assignment.herokuapp.com/",
-  "https://maps.googleapis.com",
+  "https://maps.googleapis.com/",
 ];
 const corsOptions = {
   origin: function (origin, callback) {
