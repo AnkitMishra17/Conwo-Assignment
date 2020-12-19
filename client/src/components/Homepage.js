@@ -8,7 +8,7 @@ import Form from "./Form";
 import Reminderdetails from "./Reminderdetails";
 require("dotenv").config();
 
-export default function Form1() {
+export default function Homepage() {
   const [values, setValues] = useState({
     slatitude: "",
     slongitude: "",
@@ -17,16 +17,17 @@ export default function Form1() {
     email: "",
     time: "00:00",
   });
-  // const initialstate = {
-  //   slatitude: "",
-  //   slongitude: "",
-  //   dlatitude: "",
-  //   dlongitude: "",
-  //   email: "",
-  //   time: "00:00",
-  // };
+  const initialstate = {
+    slatitude: "",
+    slongitude: "",
+    dlatitude: "",
+    dlongitude: "",
+    email: "",
+    time: "00:00",
+  };
   const KEY = "AIzaSyAW8v9wOOvEviACg4YbowQEQn0SLplfOJM";
   const [formErrors, setFormErrors] = useState({});
+  const [time, setTime] = useState([]);
   const [reminderDetails, setreminderDetails] = useState([]);
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -35,7 +36,6 @@ export default function Form1() {
 
   const validate = async () => {
     let { slatitude, slongitude, dlatitude, dlongitude, email } = values;
-    console.log(slatitude);
     slatitude = trim(slatitude);
     slongitude = trim(slongitude);
     dlatitude = trim(dlatitude);
@@ -61,12 +61,13 @@ export default function Form1() {
       email,
       time,
     } = values;
-    // setValues(initialstate);
+    setValues(initialstate);
     try {
       const res = await Axios.get(
         `/maps/api/distancematrix/json?units=imperial&origins=${slatitude},${slongitude}&destinations=${dlatitude},${dlongitude}&key=${KEY}`
       );
       const { data } = await res;
+      console.log(data);
       const { status } = data.rows[0].elements[0];
       if (status === "OK") {
         let gettime = time.split(":");
@@ -87,8 +88,9 @@ export default function Form1() {
           });
         let t1 = m.hour();
         let t2 = m.minutes();
+        setTime((result) => [...result, [t1, t2]]);
         try {
-          Axios.post("http://localhost:5000/api/add", {
+          Axios.post("/api/add", {
             email,
             t1,
             t2,
@@ -97,6 +99,7 @@ export default function Form1() {
           console.error(e);
         }
       } else {
+        setTime((result) => [...result, [" ", " "]]);
         throw new Error("This destination is out of bounds");
       }
     } catch (e) {
@@ -107,9 +110,9 @@ export default function Form1() {
     e.preventDefault();
     let data = await validate();
     if (Object.keys(data).length === 0) {
-      setreminderDetails((result) => [...result, [values.time, values.email]]);
       setFormErrors({});
       sendReminderData();
+      setreminderDetails((result) => [...result, [values.time, values.email]]);
     } else {
       setFormErrors(data);
     }
@@ -122,7 +125,7 @@ export default function Form1() {
         handleInputChange={handleInputChange}
         addReminder={addReminder}
       />
-      <Reminderdetails reminderDetails={reminderDetails} />
+      <Reminderdetails reminderDetails={reminderDetails} time={time} />
     </div>
   );
 }

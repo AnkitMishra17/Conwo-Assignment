@@ -11,25 +11,8 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// ** MIDDLEWARE ** //
-const whitelist = [
-  "http://localhost:3000",
-  "http://localhost:8080",
-  // "https://shrouded-journey-38552.herokuapp.com",
-];
-const corsOptions = {
-  origin: function (origin, callback) {
-    console.log("** Origin of request " + origin);
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      console.log("Origin acceptable");
-      callback(null, true);
-    } else {
-      console.log("Origin rejected");
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
-app.use(cors(corsOptions));
+app.use(cors());
+
 let REMINDERS = [];
 
 app.post("/api/add", (req, res) => {
@@ -41,7 +24,6 @@ app.post("/api/add", (req, res) => {
     subject: "Reminder Alert.",
     html: `<p>Hi! It's time to leave if you want to reach your destination</p>`,
   };
-  console.log(REMINDERS.length);
   REMINDERS.push(
     schedule.scheduleJob(`${t2} ${t1} * * *`, function () {
       console.log(`This job is scheduled for the email: ${email}`);
@@ -55,7 +37,6 @@ app.post("/api/add", (req, res) => {
       });
     })
   );
-  console.log(REMINDERS.length);
 });
 
 if (process.env.NODE_ENV === "production") {
