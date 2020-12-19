@@ -67,8 +67,8 @@ export default function Homepage() {
         `/maps/api/distancematrix/json?units=imperial&origins=${slatitude},${slongitude}&destinations=${dlatitude},${dlongitude}&key=${KEY}`
       );
       const { data } = await res;
+      console.log(data);
       const { status } = data.rows[0].elements[0];
-      console.log(data.rows[0].elements[0]);
       if (status === "OK") {
         let gettime = time.split(":");
         let hrs = parseInt(gettime[0]);
