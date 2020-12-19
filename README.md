@@ -42,10 +42,10 @@ PASSWORD="TEST_PASSWORD"
 - Home 
 <img src="./screenshots/Home.png" height="200">
 
--Form Validation
+- Form Validation
 <img src="./screenshots/Validation.png" height="200">
 
--Destination is not Reachable
+- Destination is not Reachable
 <img src="./screenshots/Unreachable.png" height="200">
 
 - Input-1
