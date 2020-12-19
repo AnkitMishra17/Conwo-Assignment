@@ -3,8 +3,17 @@ import SnackbarContent from "@material-ui/core/SnackbarContent";
 
 function Reminderdetails(props) {
   const { reminderDetails } = props;
-  const details = reminderDetails.map((ele, idx) => {
-    let msg = `[${ele[0]}] - Requested MAP API for (${ele[1]})`;
+  const { time } = props;
+  let combineddetails = reminderDetails.map((ele, idx) => {
+    return ele.concat(time[idx]);
+  });
+  const details = combineddetails.map((ele, idx) => {
+    let msg;
+    if (ele[2] === " ") {
+      msg = `Destination Out of Bounds according to MAP API for (${ele[1]})`;
+    } else {
+      msg = `[${ele[0]}] - Requested MAP API for (${ele[1]}), Email scheduled at [${ele[2]}:${ele[3]}] `;
+    }
     return (
       <SnackbarContent
         key={idx}

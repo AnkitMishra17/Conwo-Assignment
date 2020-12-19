@@ -8,7 +8,7 @@ import Form from "./Form";
 import Reminderdetails from "./Reminderdetails";
 require("dotenv").config();
 
-export default function Task() {
+export default function Homepage() {
   const [values, setValues] = useState({
     slatitude: "",
     slongitude: "",
@@ -17,16 +17,17 @@ export default function Task() {
     email: "",
     time: "00:00",
   });
-  // const initialstate = {
-  //   slatitude: "",
-  //   slongitude: "",
-  //   dlatitude: "",
-  //   dlongitude: "",
-  //   email: "",
-  //   time: "00:00",
-  // };
+  const initialstate = {
+    slatitude: "",
+    slongitude: "",
+    dlatitude: "",
+    dlongitude: "",
+    email: "",
+    time: "00:00",
+  };
   const KEY = "AIzaSyAW8v9wOOvEviACg4YbowQEQn0SLplfOJM";
   const [formErrors, setFormErrors] = useState({});
+  const [time, setTime] = useState([]);
   const [reminderDetails, setreminderDetails] = useState([]);
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -60,7 +61,7 @@ export default function Task() {
       email,
       time,
     } = values;
-    // setValues(initialstate);
+    setValues(initialstate);
     try {
       const res = await Axios.get(
         `/maps/api/distancematrix/json?units=imperial&origins=${slatitude},${slongitude}&destinations=${dlatitude},${dlongitude}&key=${KEY}`
@@ -87,6 +88,7 @@ export default function Task() {
           });
         let t1 = m.hour();
         let t2 = m.minutes();
+        setTime((result) => [...result, [t1, t2]]);
         try {
           Axios.post("/api/add", {
             email,
@@ -97,6 +99,7 @@ export default function Task() {
           console.error(e);
         }
       } else {
+        setTime((result) => [...result, [" ", " "]]);
         throw new Error("This destination is out of bounds");
       }
     } catch (e) {
@@ -122,7 +125,7 @@ export default function Task() {
         handleInputChange={handleInputChange}
         addReminder={addReminder}
       />
-      <Reminderdetails reminderDetails={reminderDetails} />
+      <Reminderdetails reminderDetails={reminderDetails} time={time} />
     </div>
   );
 }
