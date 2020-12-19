@@ -64,7 +64,7 @@ export default function Homepage() {
     setValues(initialstate);
     try {
       const res = await Axios.get(
-        `/maps/api/distancematrix/json?units=imperial&origins=${slatitude},${slongitude}&destinations=${dlatitude},${dlongitude}&key=${KEY}`
+        `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${slatitude},${slongitude}&destinations=${dlatitude},${dlongitude}&key=${KEY}`
       );
       const { data } = await res;
       console.log(data);
